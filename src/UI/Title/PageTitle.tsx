@@ -4,7 +4,7 @@ import { type TitleProps } from "./type";
 function PageTitle({ title }: TitleProps) {
   return (
     <div>
-      <h1 className={styles.title}>GREEN-API Chat</h1>
+      <h1 className={styles.title}>{title}</h1>
     </div>
   );
 }
