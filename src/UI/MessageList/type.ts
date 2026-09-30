@@ -1,7 +1,5 @@
+import type { MessageType } from "../../App/type";
+
 export type MessageListProps = {
-  messages: {
-    name: string;
-    text: string;
-    date: number;
-  }[];
+  messages: MessageType[];
 };

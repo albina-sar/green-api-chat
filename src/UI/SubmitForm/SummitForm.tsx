@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "./SubmitForm.module.css";
+import { type SubmitFormProps } from "./type";
 
-function SubmitForm() {
+function SubmitForm({ onSubmit }: SubmitFormProps) {
   const [input, setInput] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -10,10 +11,15 @@ function SubmitForm() {
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (input.trim() === "") {
+      return;
+    }
+    onSubmit(input);
+    setInput("");
   };
 
   return (
-    <form className={styles.container}>
+    <form className={styles.container} onSubmit={handleSubmit}>
       <div>
         <input
           type="text"

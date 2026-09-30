@@ -1,6 +1,5 @@
-import React from "react";
+import styles from "./PageTitle.module.css";
 import { type TitleProps } from "./type";
-import styles from './PageTitle.module.css'
 
 function PageTitle({ title }: TitleProps) {
   return (

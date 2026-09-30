@@ -7,7 +7,7 @@ function Message({name, text, date}: MessageProps) {
         <div className={styles.container}>
             <div className={styles.name}>{name}</div>
             <p>{text}</p>
-            <p className={styles.date}>{new Date().toLocaleString()}</p>
+            <p className={styles.date}>{new Date(date).toLocaleString()}</p>
         </div>
     )
 }
