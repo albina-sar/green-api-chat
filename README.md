@@ -1,75 +1,64 @@
-# React + TypeScript + Vite
+# GREEN-API Chat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Веб-приложение для отправки и получения сообщений WhatsApp через GREEN-API. Реализовано на React + TypeScript с long polling для получения входящих сообщений в реальном времени.
 
-Currently, two official plugins are available:
+## Live Demo
+🔗 [Live Demo](https://твой-проект.vercel.app)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Функционал
+- Отправка текстовых сообщений в WhatsApp
+- Получение входящих сообщений в реальном времени (long polling)
+- Отображение истории сообщений
+- Обработка ошибок при отправке и получении
 
-## React Compiler
+## Стек
+- React 18
+- TypeScript
+- Vite
+- CSS Modules
+- GREEN-API (WhatsApp API)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Инструкция по запуску
+1. Клонировать репозиторий:
+```bash
+git clone https://github.com/albina-sar/green-api-chat.git
+```
+2. Установить зависимости:
+```bash
+npm install
+```
+3. Создать файл .env в корне проекта:
+```env
+VITE_GREEN_API_ID=твой_id
+VITE_GREEN_API_TOKEN=твой_токен
+```
+Файл `.env` добавлен в `.gitignore` — токен не попадает в репозиторий.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+4. Запустить проект:
+```bash
+npm run dev
+```
+## Структура проекта
+```
+src/
+├── api/          # функции для работы с GREEN-API
+├── UI/           # компоненты интерфейса
+├── App.tsx       # главный компонент
+└── main.tsx      # точка входа
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Как работает получение сообщений
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Проект использует **long polling** для получения входящих сообщений:
+1. При монтировании `App` запускается `useEffect`.
+2. Внутри — бесконечный цикл, который вызывает `receiveNotification`.
+3. Если пришло уведомление — проверяется тип (`incomingMessageReceived`).
+4. Если это текстовое сообщение — добавляется в чат.
+5. Уведомление удаляется через `deleteNotification`.
+6. Цикл останавливается при размонтировании компонента (cleanup).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Автор
 
-```
+Альбина Саркитова
+- GitHub: [@albina-sar](https://github.com/albina-sar)
+- Email: albina.sarkitova@yandex.ru
