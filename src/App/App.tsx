@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
-import { receiveNotification, sendMessage } from "../api/api";
+import {
+  deleteNotification,
+  receiveNotification,
+  sendMessage,
+} from "../api/api";
 import MessageList from "../UI/MessageList/MessageList";
 import SubmitForm from "../UI/SubmitForm/SummitForm";
 import PageTitle from "../UI/Title/PageTitle";
@@ -32,7 +36,18 @@ function App() {
       while (isRunning) {
         const result = await receiveNotification();
         if (result === null) continue;
-        console.log(result);
+        if (result.body.typeWebhook === "incomingMessageReceived") {
+          if (result.body.messageData.typeMessage === "textMessage") {
+            const name = result.body.senderData.senderName;
+            const text = result.body.messageData.textMessageData.textMessage;
+            setMessages((prev) => [...prev, { name, text, date: Date.now() }]);
+          }
+        }
+        try {
+          await deleteNotification(result.receiptId);
+        } catch (err) {
+          console.error("Ошибка удаления уведомления:", err);
+        }
       }
     }
     poll();
