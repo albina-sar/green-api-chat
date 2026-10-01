@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { sendMessage } from "../api/api";
+import { useEffect, useState } from "react";
+import { receiveNotification, sendMessage } from "../api/api";
 import MessageList from "../UI/MessageList/MessageList";
 import SubmitForm from "../UI/SubmitForm/SummitForm";
 import PageTitle from "../UI/Title/PageTitle";
@@ -25,6 +25,22 @@ function App() {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    let isRunning = true;
+    async function poll() {
+      while (isRunning) {
+        const result = await receiveNotification();
+        if (result === null) continue;
+        console.log(result);
+      }
+    }
+    poll();
+    return () => {
+      isRunning = false;
+    };
+  }, []);
+
   return (
     <div className={styles.container}>
       <PageTitle title="GREEN-API Chat"></PageTitle>
