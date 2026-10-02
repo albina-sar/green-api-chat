@@ -1,6 +1,7 @@
 import { type MessageProps } from "./type"
 import styles from './Message.module.css'
 
+//Создаем структуру одного сообщения
 function Message({name, text, date}: MessageProps) {
 
     return(

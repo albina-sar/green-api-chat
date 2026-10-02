@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./SubmitForm.module.css";
 import { type SubmitFormProps } from "./type";
 
+// Создаем форму для отправки сообщения
 function SubmitForm({ onSubmit }: SubmitFormProps) {
   const [input, setInput] = useState("");
 

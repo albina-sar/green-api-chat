@@ -2,6 +2,7 @@ import Message from "../Message/Message";
 import styles from "./MessageList.module.css";
 import type { MessageListProps } from "./type";
 
+//Создаем структуру списка сообщений
 function MessageList({ messages }: MessageListProps) {
   return (
     <div className={styles.container}>

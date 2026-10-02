@@ -1,8 +1,11 @@
-import { API_TOKEN, API_URL, ID_INSTANCE } from "./config";
+import { API_URL } from "./config";
 
-export async function sendMessage(chatId: string, text: string) {
+export async function sendMessage(id: string,
+  token: string,
+  chatId: string,
+  text: string) {
   const response = await fetch(
-    `${API_URL}/waInstance${ID_INSTANCE}/sendMessage/${API_TOKEN}`,
+    `${API_URL}/waInstance${id}/sendMessage/${token}`,
     {
       method: "POST",
       headers: {
@@ -21,9 +24,9 @@ export async function sendMessage(chatId: string, text: string) {
   return result;
 }
 
-export async function receiveNotification() {
+export async function receiveNotification(id: string, token: string) {
   const response = await fetch(
-    `${API_URL}/waInstance${ID_INSTANCE}/receiveNotification/${API_TOKEN}`,
+    `${API_URL}/waInstance${id}/receiveNotification/${token}`,
     {
       method: "GET",
     },
@@ -35,9 +38,9 @@ export async function receiveNotification() {
   return result;
 }
 
-export async function deleteNotification(receiptId: number) {
+export async function deleteNotification(receiptId: number, id: string, token: string) {
   const response = await fetch(
-    `${API_URL}/waInstance${ID_INSTANCE}/deleteNotification/${API_TOKEN}/${receiptId}`,
+    `${API_URL}/waInstance${id}/deleteNotification/${token}/${receiptId}`,
     {
       method: "DELETE",
     },
