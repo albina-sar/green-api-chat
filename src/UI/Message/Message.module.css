@@ -1,18 +1,19 @@
 .container {
-    width: 900px;
-    height: 100px;
-    font-family: 'Times New Roman', Times, serif;
-    font-size: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  width: 100%;
+  max-width: 600px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .date {
-    align-self: end;
-    font-size: 17px;
+  margin-top: auto;
+  font-size: 17px;
+  align-self: flex-end;
 }
 
 .name {
-    color: rgb(57, 167, 246);
+  color: rgb(57, 167, 246);
 }

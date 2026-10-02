@@ -4,13 +4,13 @@ import {
   receiveNotification,
   sendMessage,
 } from "../api/api";
-import ChatForm from "../UI/ChatForm/ChatForm";
 import MessageList from "../UI/MessageList/MessageList";
-import SettingsForm from "../UI/SettingsForm/SettingsForm";
 import SubmitForm from "../UI/SubmitForm/SummitForm";
 import PageTitle from "../UI/Title/PageTitle";
 import styles from "./App.module.css";
 import type { MessageType } from "./type";
+import SettingsForm from "../UI/SettingsForm/SettingsForm";
+import ChatForm from "../UI/ChatForm/ChatForm";
 
 function App() {
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -79,21 +79,50 @@ function App() {
     };
   }, [id, token]);
 
+  const handleChangeChat = () => {
+    setChatId(null);
+    localStorage.removeItem("green-api-chat-id");
+    setMessages([]); // очистить сообщения старого чата
+  };
+  const handleLogout = () => {
+    setId(null);
+    setToken(null);
+    setChatId(null);
+    setMessages([]);
+    localStorage.removeItem("green-api-id");
+    localStorage.removeItem("green-api-token");
+    localStorage.removeItem("green-api-chat-id");
+  };
   return (
-    <div className={styles.container}>
+  <div className={styles.container}>
+    <div className={styles.header}>
       <PageTitle title="GREEN-API Chat" />
-      {!id || !token ? (
-        <SettingsForm onSave={handleSaveSettings} />
-      ) : !chatId ? (
-        <ChatForm onCreate={handleCreateChat} />
-      ) : (
+      {/* кнопки видны только в чате */}
+      {id && token && chatId && (
         <>
-          <MessageList messages={messages} />
-          <SubmitForm onSubmit={handleSendMessage} />
+          <button onClick={handleChangeChat}>Сменить чат</button>
+          <button onClick={handleLogout}>Выйти</button>
         </>
       )}
     </div>
-  );
+    
+    {/* условный рендер — три состояния */}
+    {!id || !token ? (
+      <SettingsForm onSave={handleSaveSettings} />
+    ) : !chatId ? (
+      <ChatForm onCreate={handleCreateChat} />
+    ) : (
+      <>
+        <div className={styles.messages}>
+          <MessageList messages={messages} />
+        </div>
+        <div className={styles.form}>
+          <SubmitForm onSubmit={handleSendMessage} />
+        </div>
+      </>
+    )}
+  </div>
+);
 }
 
 export default App;
