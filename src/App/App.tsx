@@ -4,13 +4,13 @@ import {
   receiveNotification,
   sendMessage,
 } from "../api/api";
+import ChatForm from "../UI/ChatForm/ChatForm";
 import MessageList from "../UI/MessageList/MessageList";
+import SettingsForm from "../UI/SettingsForm/SettingsForm";
 import SubmitForm from "../UI/SubmitForm/SummitForm";
 import PageTitle from "../UI/Title/PageTitle";
 import styles from "./App.module.css";
 import type { MessageType } from "./type";
-import SettingsForm from "../UI/SettingsForm/SettingsForm";
-import ChatForm from "../UI/ChatForm/ChatForm";
 
 function App() {
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -94,35 +94,41 @@ function App() {
     localStorage.removeItem("green-api-chat-id");
   };
   return (
-  <div className={styles.container}>
-    <div className={styles.header}>
-      <PageTitle title="GREEN-API Chat" />
-      {/* кнопки видны только в чате */}
-      {id && token && chatId && (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <PageTitle title="GREEN-API Chat" />
+        {/* кнопки видны только в чате */}
+        {id && token && chatId && (
+          <div className={styles.buttons}>
+            <button className={styles.button} onClick={handleChangeChat}>
+              Сменить чат
+            </button>
+            <button className={styles.button} onClick={handleLogout}>
+              Выйти
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* условный рендер — три состояния */}
+      {!id || !token ? (
+        <div className={styles.formContainer}>
+          <SettingsForm onSave={handleSaveSettings} />
+        </div>
+      ) : !chatId ? (
+        <ChatForm onCreate={handleCreateChat} />
+      ) : (
         <>
-          <button onClick={handleChangeChat}>Сменить чат</button>
-          <button onClick={handleLogout}>Выйти</button>
+          <div className={styles.messages}>
+            <MessageList messages={messages} />
+          </div>
+          <div className={styles.form}>
+            <SubmitForm onSubmit={handleSendMessage} />
+          </div>
         </>
       )}
     </div>
-    
-    {/* условный рендер — три состояния */}
-    {!id || !token ? (
-      <SettingsForm onSave={handleSaveSettings} />
-    ) : !chatId ? (
-      <ChatForm onCreate={handleCreateChat} />
-    ) : (
-      <>
-        <div className={styles.messages}>
-          <MessageList messages={messages} />
-        </div>
-        <div className={styles.form}>
-          <SubmitForm onSubmit={handleSendMessage} />
-        </div>
-      </>
-    )}
-  </div>
-);
+  );
 }
 
 export default App;

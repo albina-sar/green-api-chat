@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from "./SettingsForm.module.css";
 import { type SettingsFormProps } from "./type";
 
 // Создаем форму для авторизации
@@ -22,21 +23,23 @@ function SettingsForm({ onSave }: SettingsFormProps) {
 
   return (
     <div>
-      <h1>Авторизация</h1>
-      <form onSubmit={handleSubmit}>
+      <h3 className={styles.title}>Авторизация</h3>
+      <form onSubmit={handleSubmit} className={styles.container}>
         <input
           type="text"
           placeholder="Введите idInstance"
           value={id}
           onChange={handleChangeId}
+          className={styles.inputs}
         />
         <input
           type="text"
           placeholder="Введите apiTokenInstance"
           value={token}
           onChange={handleChangeToken}
+          className={styles.inputs}
         />
-        <button type="submit">Сохранить</button>
+        <button type="submit" className={styles.button}>Сохранить</button>
       </form>
     </div>
   );

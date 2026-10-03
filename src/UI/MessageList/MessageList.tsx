@@ -5,7 +5,7 @@ import type { MessageListProps } from "./type";
 //Создаем структуру списка сообщений
 function MessageList({ messages }: MessageListProps) {
   return (
-    <div className={styles.container}>
+    <div>
       {messages.length === 0 ? (
         <p className={styles.empty}>Сообщений нет</p>
       ) : (

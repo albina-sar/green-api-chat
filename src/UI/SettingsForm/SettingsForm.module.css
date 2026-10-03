@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-family: 'Times New Roman', Times, serif;
+  font-size: 50px;
+}
+
+.button {
+  width: 450px;
+  height: 30px;
+  background-color: rgb(110, 215, 132);
+  color: azure;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.button:hover {
+  background-color: rgb(90, 195, 112);
+}
+
+.button:active {
+  transform: scale(0.98);
+}
+
+.inputs {
+  width: 450px;
+  height: 30px;
+  border: 1px black solid;
+  transition: border-color 0.2s ease;
+}
+
+.inputs:hover {
+  border-color: #4a90e2;
+}
+
+.inputs:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+}
