@@ -56,21 +56,29 @@ function App() {
     let isRunning = true;
     async function poll() {
       if (!id || !token) return;
-      while (isRunning) {
-        const result = await receiveNotification(id, token);
-        if (result === null) continue;
-        if (result.body.typeWebhook === "incomingMessageReceived") {
-          if (result.body.messageData.typeMessage === "textMessage") {
-            const name = result.body.senderData.senderName;
-            const text = result.body.messageData.textMessageData.textMessage;
-            setMessages((prev) => [...prev, { name, text, date: Date.now() }]);
+      try {
+        while (isRunning) {
+          const result = await receiveNotification(id, token);
+          if (result === null) continue;
+          if (result.body.typeWebhook === "incomingMessageReceived") {
+            if (result.body.messageData.typeMessage === "textMessage") {
+              const senderChatId = result.body.senderData.chatId;
+              if (senderChatId === chatId) {
+                const name = result.body.senderData.senderName;
+                const text =
+                  result.body.messageData.textMessageData.textMessage;
+                setMessages((prev) => [
+                  ...prev,
+                  { name, text, date: Date.now() },
+                ]);
+              }
+            }
           }
-        }
-        try {
+
           await deleteNotification(result.receiptId, id, token);
-        } catch (err) {
-          console.error("Ошибка удаления уведомления:", err);
         }
+      } catch (err) {
+        console.error("poll упал:", err);
       }
     }
     poll();
